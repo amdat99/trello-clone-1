@@ -1,5 +1,6 @@
 // Packages
 import React, { useState, useEffect, useContext } from "react";
+import { requestHandler } from "./Helpers/requestHandler";
 import { v4 as uuidv4 } from "uuid";
 
 // Context API
@@ -25,7 +26,7 @@ function Trello({}) {
   console.log(userId);
   // Cards Call
   useEffect(() => {
-    fetch("http://localhost:5000/cards/" + userId)
+    fetch("http://localhost:5000/cards" + userId)
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
@@ -74,17 +75,23 @@ function Trello({}) {
 
     setCards([...cards, nextCard]);
 
-    fetch(`/cards`, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        cardId: nextCard.cardid,
-        cardTitle: nextCard.cardtitle,
-        user_id: userId,
-      }),
+    // fetch(`/cards`, {
+    //   method: "POST",
+    //   headers: {
+    //     Accept: "application/json",
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify({
+    //     cardId: nextCard.cardid,
+    //     cardTitle: nextCard.cardtitle,
+    //     user_id: userId,
+    //   }),
+    // });
+
+    requestHandler({
+      body: { cardId: nextCard.cardid, cardTitle: nextCard.cardtitle, user_id: userId },
+      type: "post",
+      route: "cards",
     });
   };
 

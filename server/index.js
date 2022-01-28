@@ -192,7 +192,7 @@ app.post("/cards", async (req, res) => {
   try {
     const { cardTitle, cardId, user_id } = req.body;
 
-    const newCard = await pool.query("INSERT INTO card (cardId, cardTitle, user_id) VALUES($1, $2, $3) RETURNING *", [
+    const newCard = await pool.query("INSERT INTO card (card_id, card_title, user_id) VALUES($1, $2, $3) RETURNING *", [
       cardId,
       cardTitle,
       user_id,
